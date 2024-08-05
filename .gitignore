@@ -1,1 +1,6 @@
 node_modules/
+
+# hugo
+.hugo_build.lock
+hugo-site/public/
+hugo-site/resources/
