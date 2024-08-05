@@ -1,0 +1,92 @@
+swagger: '2.0'
+info:
+  version: 1.0.0
+  title: Todo App REST API
+  description: |-
+    Todo App REST API specifications
+host: example.com
+basePath: /api/v1
+parameters:
+  X-Example-API-Token:
+    name: X-Example-API-Token
+    in: header
+    description: |-
+      This is API Token
+    required: true
+    type: string
+  id:
+    name: id
+    in: path
+    description: Event ID
+    required: true
+    type: integer
+    format: int64
+paths:
+  '/tasks/{id}':
+    get:
+      tags:
+        - Todo
+      summary: Returns an task.
+      description: |-
+        Returns a task by ID.
+      produces:
+        - application/json
+      parameters:
+        - $ref: '#/parameters/X-Example-API-Token'
+        - $ref: '#/parameters/id'
+      responses:
+        '200':
+          description: OK.
+          schema:
+            $ref: '#/definitions/Task'
+        '404':
+          description: The task does not exist.
+          schema:
+            $ref: '#/definitions/Error'
+    post:
+      tags:
+        - Todo
+      summary: Create a task.
+      description: |-
+        Returns a task by ID.
+      produces:
+        - application/json
+      parameters:
+        - $ref: '#/parameters/X-Example-API-Token'
+        - name: body
+          in: body
+          description: A Task object
+          required: true
+          schema:
+            $ref: '#/definitions/Task'
+      responses:
+        '201':
+          description: OK.
+          schema:
+            $ref: '#/definitions/Task'
+definitions:
+  Task:
+    type: object
+    description: task information.
+    properties:
+      id:
+        description: |-
+          Internal ID of the task.
+        type: integer
+        example: '1'
+      name:
+        type: string
+        description: |-
+          The task name.
+        example: 'Read a book'
+  Error:
+    description: Error information
+    type: object
+    properties:
+      error:
+        type: object
+        properties:
+          message:
+            type: string
+            description: Error message for task.
+            example: "Invalid parameter."
